@@ -4,6 +4,7 @@ import styles from "./list.module.css";
 import { useState } from "react";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
+import SearchItem from "../../components/searchItem/SearchItem";
 
 interface LocationState {
   state: {
@@ -20,10 +21,10 @@ interface LocationState {
 const List = () => {
   const location = useLocation() as LocationState;
 
-  const [destination, setDestination] = useState(location.state.destination);
-  const [date, setDate] = useState(location.state.date);
+  const [destination, setDestination] = useState(location.state?.destination);
+  const [date, setDate] = useState(location.state?.date);
   const [openDate, setOpenDate] = useState(false);
-  const [options, setOptions] = useState(location.state.options);
+  const [options, setOptions] = useState(location.state?.options);
 
   const formattedStartDate = date?.[0]?.startDate
     ? format(date[0].startDate, "dd.MM.yyyy")
@@ -75,7 +76,7 @@ const List = () => {
                   <input
                     type="number"
                     className={styles.optionInput}
-                    placeholder={`${options.adult}`}
+                    placeholder={`${options?.adult}`}
                     min={1}
                   />
                 </div>
@@ -84,7 +85,7 @@ const List = () => {
                   <input
                     type="number"
                     className={styles.optionInput}
-                    placeholder={`${options.children}`}
+                    placeholder={`${options?.children}`}
                     min={1}
                   />
                 </div>
@@ -93,7 +94,7 @@ const List = () => {
                   <input
                     type="number"
                     className={styles.optionInput}
-                    placeholder={`${options.room}`}
+                    placeholder={`${options?.room}`}
                     min={1}
                   />
                 </div>
@@ -101,7 +102,17 @@ const List = () => {
             </div>
             <button>Search</button>
           </div>
-          <div className={styles.result}></div>
+          <div className={styles.result}>
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+          </div>
         </div>
       </div>
     </div>
