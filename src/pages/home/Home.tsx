@@ -4,6 +4,7 @@ import FeaturedProperties from "../../components/featuredProperties/FeaturedProp
 import Navbar from "../../components/navbar/Navbar";
 import PropertyList from "../../components/propertyList/PropertyList";
 import styles from "./home.module.css";
+import Footer from "../../components/footer/Footer";
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
         <h1 className={styles.title}>Homes guests love</h1>
         <FeaturedProperties />
         <MailList />
+        <Footer />
       </div>
     </div>
   );
