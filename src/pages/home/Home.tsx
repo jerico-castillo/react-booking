@@ -1,3 +1,4 @@
+import MailList from "../../components/mailList/MailList";
 import Featured from "../../components/featured/Featured";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
 import Navbar from "../../components/navbar/Navbar";
@@ -14,6 +15,7 @@ const Home = () => {
         <PropertyList />
         <h1 className={styles.title}>Homes guests love</h1>
         <FeaturedProperties />
+        <MailList />
       </div>
     </div>
   );
