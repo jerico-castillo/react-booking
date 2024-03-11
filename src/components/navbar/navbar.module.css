@@ -65,6 +65,7 @@
 .date {
   position: absolute;
   top: 50px;
+  z-index: 2
 }
 
 .options {
@@ -74,6 +75,8 @@
   color: gray;
   -webkit-box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
   box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+  z-index: 2
+
 }
 
 .optionItem {

@@ -6,6 +6,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import type { Range } from "react-date-range";
+import { useNavigate } from "react-router-dom";
 
 interface Options {
   adult: number;
@@ -17,6 +18,7 @@ interface NavbarProps {
   type?: string;
 }
 const Navbar = ({ type }: NavbarProps) => {
+  const [destination, setDestination] = useState<string>("");
   const [openDate, setOpenDate] = useState<boolean>(false);
 
   const [date, setDate] = useState<Range[] | undefined>([
@@ -34,6 +36,7 @@ const Navbar = ({ type }: NavbarProps) => {
     room: 1,
   });
 
+  const navigate = useNavigate();
   const handleOption = (name: keyof Options, operation: string): void => {
     setOptions((prev) => {
       return {
@@ -43,6 +46,11 @@ const Navbar = ({ type }: NavbarProps) => {
       };
     });
   };
+
+  const handleSearch = () => {
+    navigate("/hotels", { state: { destination, date, options } });
+  };
+
   const formattedStartDate = date?.[0].startDate
     ? format(date[0].startDate, "dd.MM.yyyy")
     : "";
@@ -88,6 +96,9 @@ const Navbar = ({ type }: NavbarProps) => {
                   type="text"
                   placeholder="Where are you going?"
                   className={styles.searchInput}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setDestination(e.target.value)
+                  }
                 />
               </div>
               <div className={styles.searchItem}>
@@ -102,6 +113,7 @@ const Navbar = ({ type }: NavbarProps) => {
                     onChange={(item) => setDate([item.selection])}
                     moveRangeOnFirstSelection={false}
                     ranges={date}
+                    minDate={new Date()}
                     className={styles.date}
                   />
                 )}
@@ -180,7 +192,9 @@ const Navbar = ({ type }: NavbarProps) => {
                 )}
               </div>
               <div className={styles.searchItem}>
-                <button className={styles.button}>Search</button>
+                <button className={styles.button} onClick={handleSearch}>
+                  Search
+                </button>
               </div>
             </div>
           </>
