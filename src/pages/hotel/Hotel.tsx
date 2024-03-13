@@ -1,11 +1,21 @@
 import Navbar from "../../components/navbar/Navbar";
 import styles from "./hotel.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleArrowLeft,
+  faCircleArrowRight,
+  faCircleXmark,
+  faL,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
 import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
+import { useState } from "react";
 
 const Hotel = () => {
+  const [slideNumber, setslideNumber] = useState<number>(0);
+  const [open, setOpen] = useState<boolean>(false);
+
   const photos = [
     {
       src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707778.jpg?k=56ba0babbcbbfeb3d3e911728831dcbc390ed2cb16c51d88159f82bf751d04c6&o=&hp=1",
@@ -26,9 +36,53 @@ const Hotel = () => {
       src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707389.jpg?k=52156673f9eb6d5d99d3eed9386491a0465ce6f3b995f005ac71abc192dd5827&o=&hp=1",
     },
   ];
+
+  const handleOpen = (index: number) => {
+    setslideNumber(index);
+    setOpen(true);
+  };
+
+  const handleMove = (direction: string) => {
+    let newSlideNumber;
+
+    if (direction === "left") {
+      newSlideNumber = slideNumber === 0 ? 5 : slideNumber - 1;
+    } else {
+      newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
+    }
+
+    setslideNumber(newSlideNumber);
+  };
+
   return (
     <div className={styles.hotel}>
       <Navbar type="list" />
+      {open && (
+        <div className={styles.slider}>
+          <FontAwesomeIcon
+            icon={faCircleXmark}
+            className={styles.close}
+            onClick={() => setOpen(false)}
+          />
+          <FontAwesomeIcon
+            icon={faCircleArrowLeft}
+            className={styles.arrow}
+            onClick={() => handleMove("left")}
+          />
+          <div className={styles.sliderWrapper}>
+            <img
+              src={photos[slideNumber].src}
+              alt=""
+              className={styles.sliderImg}
+            />
+          </div>
+          <FontAwesomeIcon
+            icon={faCircleArrowRight}
+            className={styles.arrow}
+            onClick={() => handleMove("right")}
+          />
+        </div>
+      )}
       <div className={styles.container}>
         <div className={styles.wrapper}>
           <button className={styles.bookNow}>Reserve or Book Now!</button>
@@ -44,9 +98,14 @@ const Hotel = () => {
             Book a stay over $114 at this property and get a free airport taxi
           </span>
           <div className={styles.images}>
-            {photos.map((photo) => (
-              <div className={styles.imgWrapper}>
-                <img src={photo.src} alt="" className={styles.hotelImg} />
+            {photos.map((photo, index) => (
+              <div className={styles.imgWrapper} id={photo.src}>
+                <img
+                  onClick={() => handleOpen(index)}
+                  src={photo.src}
+                  alt=""
+                  className={styles.hotelImg}
+                />
               </div>
             ))}
           </div>
