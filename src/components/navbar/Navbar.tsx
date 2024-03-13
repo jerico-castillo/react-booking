@@ -7,6 +7,13 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import type { Range } from "react-date-range";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBed,
+  faCar,
+  faPlane,
+  faTaxi,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface Options {
   adult: number;
@@ -63,18 +70,23 @@ const Navbar = ({ type }: NavbarProps) => {
       <div className={styles.container}>
         <div className={styles.list}>
           <div className={`${styles.listItem}`}>
+            <FontAwesomeIcon icon={faBed} />
             <span>Stays</span>
           </div>
           <div className={styles.listItem}>
+            <FontAwesomeIcon icon={faPlane} />
             <span>Flights</span>
           </div>
           <div className={styles.listItem}>
+            <FontAwesomeIcon icon={faCar} />
             <span>Car rentals</span>
           </div>
           <div className={styles.listItem}>
+            <FontAwesomeIcon icon={faBed} />
             <span>Attractions</span>
           </div>
           <div className={styles.listItem}>
+            <FontAwesomeIcon icon={faTaxi} />
             <span>Airport taxis</span>
           </div>
         </div>

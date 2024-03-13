@@ -18,6 +18,12 @@
   margin-bottom: 50px;
 }
 
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .desc {
   margin: 20px 0;
 }
