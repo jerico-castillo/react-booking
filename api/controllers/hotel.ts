@@ -20,10 +20,13 @@ export const updateHotel = async (
   res: express.Response,
   next: NextFunction
 ) => {
-  const newHotel = new Hotel(req.body);
   try {
-    const savedHotel = await newHotel.save();
-    res.status(200).json(savedHotel);
+    const updatedHotel = await Hotel.findByIdAndUpdate(
+      req.body,
+      { $set: req.body },
+      { new: true }
+    );
+    res.status(200).json(updatedHotel);
   } catch (err) {
     next(err);
   }
