@@ -1,10 +1,11 @@
-import express from "express";
+import express, { application } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRouter from "./routes/auth";
-import hotelsRouter from "./routes/auth";
-import usersRouter from "./routes/auth";
-import roomsRouter from "./routes/auth";
+import hotelsRouter from "./routes/hotels";
+import usersRouter from "./routes/users";
+import roomsRouter from "./routes/rooms";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app: express.Application = express();
@@ -28,12 +29,17 @@ mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
 
-app.use("/api/auth/", authRouter);
-app.use("/api/users/", usersRouter);
-app.use("/api/hotels/", hotelsRouter);
-app.use("/api/rooms/", roomsRouter);
+// middlewares
 
-app.listen(8800, () => {
+app.use(cookieParser());
+app.use(express.json());
+
+app.use("/api/auth", authRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/hotels", hotelsRouter);
+app.use("/api/rooms", roomsRouter);
+
+app.listen(8800, async () => {
   connect();
   console.log("Connected to Server");
 });
