@@ -22,7 +22,7 @@ export const updateHotel = async (
 ) => {
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
-      req.body,
+      req.params.id,
       { $set: req.body },
       { new: true }
     );
