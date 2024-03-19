@@ -28,7 +28,7 @@ export const verifyToken = (
     //   return next(createError("403", "You are not authorized!"));
     // }
 
-    next();
+    // return next();
   });
 };
 

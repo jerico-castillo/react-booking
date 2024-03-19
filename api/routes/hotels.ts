@@ -1,6 +1,4 @@
 import express, { NextFunction } from "express";
-import Hotel from "../models/Hotel";
-import { createError } from "../utils/error";
 import {
   createHotel,
   deleteHotel,
@@ -8,17 +6,18 @@ import {
   getHotels,
   updateHotel,
 } from "../controllers/hotel";
+import { verifyAdmin } from "../utils/verityToken";
 
 const hotelsRouter: express.Router = express.Router();
 
 // CREATE
-hotelsRouter.post("/", createHotel);
+hotelsRouter.post("/", verifyAdmin, createHotel);
 
 // UPDATE
-hotelsRouter.put("/:id", updateHotel);
+hotelsRouter.put("/:id", verifyAdmin, updateHotel);
 
 //DELETE
-hotelsRouter.delete("/:id", deleteHotel);
+hotelsRouter.delete("/:id", verifyAdmin, deleteHotel);
 
 // GET
 hotelsRouter.get("/:id", getHotel);
