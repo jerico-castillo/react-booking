@@ -1,4 +1,8 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
+
+interface Rooms {
+  _id: Types.ObjectId;
+}
 
 interface IHotel {
   name: string;
@@ -6,11 +10,11 @@ interface IHotel {
   city: string;
   address: string;
   distance: string;
-  photos?: string[];
+  photos?: Types.Array<string>;
   title: string;
   desc: string;
   rating?: number;
-  rooms?: string[];
+  rooms?: Types.DocumentArray<Rooms>;
   cheapestPirce: number;
   featured: boolean;
 }
