@@ -1,6 +1,7 @@
 import express, { NextFunction } from "express";
 import {
   countByCity,
+  countByType,
   createHotel,
   deleteHotel,
   getHotel,
@@ -21,7 +22,7 @@ hotelsRouter.put("/:id", verifyAdmin, updateHotel);
 hotelsRouter.delete("/:id", verifyAdmin, deleteHotel);
 
 hotelsRouter.get("/countByCity", countByCity);
-hotelsRouter.get("/countByType", getHotels);
+hotelsRouter.get("/countByType", countByType);
 
 // GET
 hotelsRouter.get("/:id", getHotel);

@@ -64,7 +64,15 @@ export const getHotels = async (
   next: NextFunction
 ) => {
   try {
-    const hotels = await Hotel.find();
+    const min = req.query.min;
+    const max = req.query.max;
+    const limit = Number(req.query.limit);
+
+    const hotels = await Hotel.find({
+      featured: req.query.featured,
+      cheapestPirce: { $gt: min || 1, $lt: max || 999 },
+    }).limit(limit);
+
     res.status(200).json(hotels);
   } catch (err) {
     next(err);
@@ -87,6 +95,30 @@ export const countByCity = async (
       );
     }
     res.status(200).json(list);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const countByType = async (
+  req: express.Request,
+  res: express.Response,
+  next: NextFunction
+) => {
+  try {
+    const hotelCount = await Hotel.countDocuments({ type: "hotel" });
+    const apartmentCount = await Hotel.countDocuments({ type: "apartment" });
+    const resortCount = await Hotel.countDocuments({ type: "resort" });
+    const villaCount = await Hotel.countDocuments({ type: "villa" });
+    const cabinCount = await Hotel.countDocuments({ type: "cabin" });
+
+    res.status(200).json([
+      { type: "hotel", count: hotelCount },
+      { type: "apartments", count: apartmentCount },
+      { type: "resorts", count: resortCount },
+      { type: "villas", count: villaCount },
+      { type: "cabins", count: cabinCount },
+    ]);
   } catch (error) {
     next(error);
   }
