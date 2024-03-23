@@ -4,6 +4,8 @@ import "./index.css";
 import Home from "./pages/home/Home";
 import List from "./pages/list/List";
 import Hotel from "./pages/hotel/Hotel";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./hooks/http";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,7 +27,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="container">
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </div>
   );
 }
