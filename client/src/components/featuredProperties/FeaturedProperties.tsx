@@ -1,66 +1,41 @@
+import { useQuery } from "@tanstack/react-query";
+import { fetchHotelByPriceRange } from "../../hooks/http";
 import styles from "./featuredProperties.module.css";
 
 const FeaturedProperties = () => {
-  return (
-    <div className={styles.fp}>
-      <div className={styles.item}>
-        <img
-          src="https://cf.bstatic.com/xdata/images/hotel/square600/13125860.webp?k=e148feeb802ac3d28d1391dad9e4cf1e12d9231f897d0b53ca067bde8a9d3355&o=&s=1"
-          alt=""
-          className={styles.img}
-        />
-        <span className={styles.name}>Aparthotel Stare Miasto</span>
-        <span className={styles.city}>Madrid</span>
-        <span className={styles.price}>Starting from $120</span>
-        <div className={styles.rating}>
-          <button>8.9</button>
-          <span>Excellent</span>
-        </div>
+  const { data, isPending, isError, error } = useQuery({
+    queryKey: ["hotelsByPriceRange"],
+    queryFn: () => fetchHotelByPriceRange("/hotels?featured=true&limit=5"),
+  });
+
+  let content;
+
+  if (isPending) {
+    content = "Loading...";
+  }
+
+  if (isError) {
+    content = "Error Occur!";
+  }
+  if (data) {
+    content = data.map((item) => (
+      <div className={styles.item} key={item._id}>
+        <img src={item.photos?.[0]} alt="" className={styles.img} />
+        <span className={styles.name}>{item.name}</span>
+        <span className={styles.city}>{item.city}</span>
+        <span className={styles.price}>
+          Starting from ${item.cheapestPirce}
+        </span>
+        {item.rating && (
+          <div className={styles.rating}>
+            <button>{item.rating}</button>
+            <span>Excellent</span>
+          </div>
+        )}
       </div>
-      <div className={styles.item}>
-        <img
-          src="https://cf.bstatic.com/xdata/images/hotel/square600/13125860.webp?k=e148feeb802ac3d28d1391dad9e4cf1e12d9231f897d0b53ca067bde8a9d3355&o=&s=1"
-          alt=""
-          className={styles.img}
-        />
-        <span className={styles.name}>Aparthotel Stare Miasto</span>
-        <span className={styles.city}>Madrid</span>
-        <span className={styles.price}>Starting from $120</span>
-        <div className={styles.rating}>
-          <button>8.9</button>
-          <span>Excellent</span>
-        </div>
-      </div>
-      <div className={styles.item}>
-        <img
-          src="https://cf.bstatic.com/xdata/images/hotel/square600/13125860.webp?k=e148feeb802ac3d28d1391dad9e4cf1e12d9231f897d0b53ca067bde8a9d3355&o=&s=1"
-          alt=""
-          className={styles.img}
-        />
-        <span className={styles.name}>Aparthotel Stare Miasto</span>
-        <span className={styles.city}>Madrid</span>
-        <span className={styles.price}>Starting from $120</span>
-        <div className={styles.rating}>
-          <button>8.9</button>
-          <span>Excellent</span>
-        </div>
-      </div>
-      <div className={styles.item}>
-        <img
-          src="https://cf.bstatic.com/xdata/images/hotel/square600/13125860.webp?k=e148feeb802ac3d28d1391dad9e4cf1e12d9231f897d0b53ca067bde8a9d3355&o=&s=1"
-          alt=""
-          className={styles.img}
-        />
-        <span className={styles.name}>Aparthotel Stare Miasto</span>
-        <span className={styles.city}>Madrid</span>
-        <span className={styles.price}>Starting from $120</span>
-        <div className={styles.rating}>
-          <button>8.9</button>
-          <span>Excellent</span>
-        </div>
-      </div>
-    </div>
-  );
+    ));
+  }
+  return <div className={styles.fp}>{content}</div>;
 };
 
 export default FeaturedProperties;
