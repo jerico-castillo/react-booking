@@ -5,6 +5,8 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
+import { useQuery } from "@tanstack/react-query";
+import { fetchHotelData } from "../../hooks/hotelApis";
 
 interface LocationState {
   state: {
@@ -25,6 +27,8 @@ const List = () => {
   const [date, setDate] = useState(location.state?.date);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state?.options);
+  const [min, setMin] = useState<string | undefined>(undefined);
+  const [max, setMax] = useState<string | undefined>(undefined);
 
   const formattedStartDate = date?.[0]?.startDate
     ? format(date[0].startDate, "dd.MM.yyyy")
@@ -32,6 +36,32 @@ const List = () => {
   const formattedEndDate = date?.[0]?.endDate
     ? format(date[0].endDate, "dd.MM.yyyy")
     : "";
+
+  const { data, isPending, isError, error, refetch } = useQuery({
+    queryKey: ["hotelsByDestination"],
+    queryFn: () =>
+      fetchHotelData(
+        `/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
+      ),
+  });
+
+  const handleClik = () => {
+    refetch();
+  };
+
+  let content;
+
+  if (isPending) {
+    content = <p>Loading please wait</p>;
+  }
+
+  if (isError) {
+    content = "Error Occur!";
+  }
+
+  if (data) {
+    content = data.map((item) => <SearchItem item={item} key={item._id} />);
+  }
   return (
     <div className={styles.list}>
       <Navbar type="list" />
@@ -63,13 +93,21 @@ const List = () => {
                   <span className={styles.optionText}>
                     Min price <small>per night</small>
                   </span>
-                  <input type="text" className={styles.optionInput} />
+                  <input
+                    type="number"
+                    onChange={(e) => setMin(e.target.value)}
+                    className={styles.optionInput}
+                  />
                 </div>
                 <div className={styles.optionItem}>
                   <span className={styles.optionText}>
                     Max price <small>per night</small>
                   </span>
-                  <input type="text" className={styles.optionInput} />
+                  <input
+                    type="number"
+                    onChange={(e) => setMax(e.target.value)}
+                    className={styles.optionInput}
+                  />
                 </div>
                 <div className={styles.optionItem}>
                   <span className={styles.optionText}>Adult</span>
@@ -100,19 +138,9 @@ const List = () => {
                 </div>
               </div>
             </div>
-            <button>Search</button>
+            <button onClick={handleClik}>Search</button>
           </div>
-          <div className={styles.result}>
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-          </div>
+          <div className={styles.result}>{content}</div>
         </div>
       </div>
     </div>
