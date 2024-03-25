@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import styles from "./featured.module.css";
-import { fetchHotelCountByCity } from "../../hooks/http";
+import { fetchHotelCountByCity } from "../../hooks/hotelApis";
 
 const Featured = () => {
   const { data, isPending, isError, error } = useQuery({

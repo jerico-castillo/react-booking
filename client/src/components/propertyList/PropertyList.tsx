@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchHotelCountByType } from "../../hooks/http";
+import { fetchHotelCountByType } from "../../hooks/hotelApis";
 import styles from "./propertyList.module.css";
 
 const PropertyList = () => {
