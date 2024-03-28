@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchHotelByPriceRange } from "../../hooks/http";
+import { fetchHotelData } from "../../hooks/hotelApis";
 import styles from "./featuredProperties.module.css";
 
 const FeaturedProperties = () => {
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["hotelsByPriceRange"],
-    queryFn: () => fetchHotelByPriceRange("/hotels?featured=true&limit=5"),
+    queryFn: () => fetchHotelData("/hotels?featured=true&limit=5"),
   });
 
   let content;
