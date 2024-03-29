@@ -15,6 +15,6 @@ export type Hotel = {
   desc: string;
   rating?: number;
   rooms?: string[];
-  cheapestPirce: number;
+  cheapestPrice: number;
   featured: boolean;
 };

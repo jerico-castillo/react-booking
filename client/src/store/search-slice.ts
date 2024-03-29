@@ -55,7 +55,7 @@ export const searchSlice = createSlice({
       state.options = {
         adult: undefined,
         children: undefined,
-        room: undefined,
+        room: 1,
       };
     },
   },
