@@ -10,7 +10,7 @@ import { fetchHotelData } from "../../hooks/hotelApis";
 
 interface LocationState {
   state: {
-    date: [{ startDate?: Date; endDate?: Date; key?: string }];
+    dates: [{ startDate?: Date; endDate?: Date; key?: string }];
     destination: string;
     options: {
       adult: number;
@@ -24,17 +24,17 @@ const List = () => {
   const location = useLocation() as LocationState;
 
   const [destination, setDestination] = useState(location.state?.destination);
-  const [date, setDate] = useState(location.state?.date);
+  const [dates, setDates] = useState(location.state?.dates);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state?.options);
   const [min, setMin] = useState<string | undefined>(undefined);
   const [max, setMax] = useState<string | undefined>(undefined);
 
-  const formattedStartDate = date?.[0]?.startDate
-    ? format(date[0].startDate, "dd.MM.yyyy")
+  const formattedStartDate = dates?.[0]?.startDate
+    ? format(dates[0].startDate, "dd.MM.yyyy")
     : "";
-  const formattedEndDate = date?.[0]?.endDate
-    ? format(date[0].endDate, "dd.MM.yyyy")
+  const formattedEndDate = dates?.[0]?.endDate
+    ? format(dates[0].endDate, "dd.MM.yyyy")
     : "";
 
   const { data, isPending, isError, error, refetch } = useQuery({
@@ -80,9 +80,9 @@ const List = () => {
               >{`${formattedStartDate} to ${formattedEndDate}`}</span>
               {openDate && (
                 <DateRange
-                  onChange={(item) => setDate([item.selection])}
+                  onChange={(item) => setDates([item.selection])}
                   minDate={new Date()}
-                  ranges={date}
+                  ranges={dates}
                 />
               )}
             </div>

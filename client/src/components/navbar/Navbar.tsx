@@ -14,6 +14,8 @@ import {
   faPlane,
   faTaxi,
 } from "@fortawesome/free-solid-svg-icons";
+import { useAppDispatch } from "../../typedHooks/hooks";
+import { search } from "../../store/search-slice";
 
 interface Options {
   adult: number;
@@ -28,7 +30,7 @@ const Navbar = ({ type }: NavbarProps) => {
   const [destination, setDestination] = useState<string>("");
   const [openDate, setOpenDate] = useState<boolean>(false);
 
-  const [date, setDate] = useState<Range[] | undefined>([
+  const [dates, setDates] = useState<Range[] | undefined>([
     {
       startDate: new Date(),
       endDate: new Date(),
@@ -54,16 +56,31 @@ const Navbar = ({ type }: NavbarProps) => {
     });
   };
 
-  const handleSearch = () => {
-    navigate("/hotels", { state: { destination, date, options } });
-  };
+  const dispatch = useAppDispatch();
 
-  const formattedStartDate = date?.[0].startDate
-    ? format(date[0].startDate, "dd.MM.yyyy")
+  const formattedStartDate = dates?.[0].startDate
+    ? format(dates[0].startDate, "dd.MM.yyyy")
     : "";
-  const formattedEndDate = date?.[0].endDate
-    ? format(date[0].endDate, "dd.MM.yyyy")
+  const formattedEndDate = dates?.[0].endDate
+    ? format(dates[0].endDate, "dd.MM.yyyy")
     : "";
+
+  const handleSearch = () => {
+    dispatch(
+      search({
+        destination,
+        dates: [
+          {
+            startDate: formattedStartDate,
+            endDate: formattedEndDate,
+            key: "selection",
+          },
+        ],
+        options,
+      })
+    );
+    navigate("/hotels", { state: { destination, dates, options } });
+  };
 
   return (
     <div className={styles.navbar}>
@@ -122,9 +139,9 @@ const Navbar = ({ type }: NavbarProps) => {
                 {openDate && (
                   <DateRange
                     editableDateInputs={true}
-                    onChange={(item) => setDate([item.selection])}
+                    onChange={(item) => setDates([item.selection])}
                     moveRangeOnFirstSelection={false}
-                    ranges={date}
+                    ranges={dates}
                     minDate={new Date()}
                     className={styles.date}
                   />

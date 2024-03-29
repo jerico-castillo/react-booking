@@ -31,7 +31,6 @@ export const fetchHotelCountByType = async (
 export const fetchHotelByHotelId = async (url: string): Promise<Hotel> => {
   try {
     const response = await axios.get("http://localhost:8800/api" + url);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     // 에러 처리 로직
