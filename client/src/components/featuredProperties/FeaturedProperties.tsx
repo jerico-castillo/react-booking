@@ -24,7 +24,7 @@ const FeaturedProperties = () => {
         <span className={styles.name}>{item.name}</span>
         <span className={styles.city}>{item.city}</span>
         <span className={styles.price}>
-          Starting from ${item.cheapestPirce}
+          Starting from ${item.cheapestPrice}
         </span>
         {item.rating && (
           <div className={styles.rating}>
