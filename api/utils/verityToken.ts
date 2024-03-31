@@ -14,10 +14,10 @@ export const verifyToken = (
 ) => {
   const token = req.cookies.access_token;
   if (!token) {
-    return next(createError("401", "You are not authenticated!"));
+    return next(createError("You are not authenticated!", 401));
   }
   jwt.verify(token, process.env.JWT || "", (err: any, user: any) => {
-    if (err) return next(createError("403", "Token is not valid!"));
+    if (err) return next(createError("Token is not valid!", 403));
 
     req.user = user;
     if (callback) {
@@ -41,7 +41,7 @@ export const verifyUser = (
     if (req.user.id === req.params.id || req.user.isAdmin) {
       next();
     } else {
-      return next(createError("403", "You are not authorized!"));
+      return next(createError("You are not authorized!", 403));
     }
   });
 };
@@ -55,7 +55,7 @@ export const verifyAdmin = (
     if (req.user.isAdmin) {
       next();
     } else {
-      return next(createError("403", "You are not authorized!"));
+      return next(createError("You are not authorized!", 403));
     }
   });
 };

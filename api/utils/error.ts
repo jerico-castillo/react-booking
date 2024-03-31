@@ -1,6 +1,12 @@
-export const createError = (status: string, message: string) => {
-  const err = new Error();
-  err.name = status;
-  err.message = message;
-  return err;
+class AccessError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+  }
+}
+
+export const createError = (message: string, status: number): AccessError => {
+  return new AccessError(message, status);
 };
