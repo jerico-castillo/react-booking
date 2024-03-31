@@ -6,6 +6,7 @@ import List from "./pages/list/List";
 import Hotel from "./pages/hotel/Hotel";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./hooks/hotelApis";
+import Login from "./pages/login/Login";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
         element: <List />,
       },
       { path: "/hotels/:hotelId", element: <Hotel /> },
+      {
+        path: "/login",
+        element: <Login />,
+      },
     ],
   },
 ]);
