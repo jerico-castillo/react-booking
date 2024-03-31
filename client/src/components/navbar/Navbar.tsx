@@ -14,7 +14,7 @@ import {
   faPlane,
   faTaxi,
 } from "@fortawesome/free-solid-svg-icons";
-import { useAppDispatch } from "../../typedHooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../typedHooks/hooks";
 import { search } from "../../store/search-slice";
 
 interface Options {
@@ -46,6 +46,7 @@ const Navbar = ({ type }: NavbarProps) => {
   });
 
   const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.auth);
   const handleOption = (name: keyof Options, operation: string): void => {
     setOptions((prev) => {
       return {
@@ -116,8 +117,9 @@ const Navbar = ({ type }: NavbarProps) => {
               Get rewarded for your travels – unlock instant savings of 10% or
               more with a free Lamabooking account
             </p>
-            <button className={styles.button}>Sign in / Register</button>
-
+            {!user && (
+              <button className={styles.button}>Sign in / Register</button>
+            )}
             <div className={styles.search}>
               <div className={styles.searchItem}>
                 <span>🏛️</span>
