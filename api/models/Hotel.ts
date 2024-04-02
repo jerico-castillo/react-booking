@@ -14,8 +14,8 @@ interface IHotel {
   title: string;
   desc: string;
   rating?: number;
-  rooms?: Types.DocumentArray<Rooms>;
-  cheapestPirce: number;
+  rooms: Types.DocumentArray<Rooms>;
+  cheapestPrice: number;
   featured: boolean;
 }
 
@@ -30,7 +30,7 @@ const hotelSchema = new Schema<IHotel>({
   desc: { type: String, required: true },
   rating: { type: Number, min: 0, max: 5 },
   rooms: { type: [String] },
-  cheapestPirce: { type: Number, required: true },
+  cheapestPrice: { type: Number, required: true },
   featured: { type: Boolean, default: false },
 });
 

@@ -1,5 +1,6 @@
 import express, { NextFunction } from "express";
 import Hotel from "../models/Hotel";
+import Room from "../models/Room";
 
 export const createHotel = async (
   req: express.Request,
@@ -68,13 +69,11 @@ export const getHotels = async (
     // const min = req.query.min;
     // const max = req.query.max;
     const limitNum = Number(req.query.limit);
-    console.log(limit);
     const hotels = await Hotel.find({
       ...others,
       // featured: req.query.featured,
-      cheapestPirce: { $gt: min || 1, $lt: max || 999 },
+      cheapestPrice: { $gt: min || 1, $lt: max || 999 },
     }).limit(limitNum);
-
     res.status(200).json(hotels);
   } catch (err) {
     next(err);
@@ -123,5 +122,25 @@ export const countByType = async (
     ]);
   } catch (error) {
     next(error);
+  }
+};
+
+export const getHotelRooms = async (
+  req: express.Request,
+  res: express.Response,
+  next: NextFunction
+) => {
+  try {
+    const hotel = await Hotel.findById(req.params.id);
+    if (hotel) {
+      const list = await Promise.all(
+        hotel.rooms.map((room) => {
+          return Room.findById(room);
+        })
+      );
+      res.status(200).json(list);
+    }
+  } catch (err) {
+    next(err);
   }
 };
