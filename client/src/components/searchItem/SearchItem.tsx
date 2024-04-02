@@ -3,7 +3,7 @@ import { Hotel } from "../../types/hotelType";
 import styles from "./searchItem.module.css";
 
 const SearchItem = (props: { item: Hotel }) => {
-  const { photos, name, desc, distance, rating, cheapestPirce, _id, ...other } =
+  const { photos, name, desc, distance, rating, cheapestPrice, _id, ...other } =
     props.item;
 
   return (
@@ -30,7 +30,7 @@ const SearchItem = (props: { item: Hotel }) => {
           </div>
         )}
         <div className={styles.detailTexts}>
-          <span className={styles.price}>${cheapestPirce}</span>
+          <span className={styles.price}>${cheapestPrice}</span>
           <span className={styles.taxOp}>Includes taxes and fees</span>
           <Link to={`/hotels/${_id}`}>
             <button className={styles.checkButton}>See availability</button>
