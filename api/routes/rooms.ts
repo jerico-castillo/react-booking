@@ -11,7 +11,7 @@ import { verifyAdmin } from "../utils/verityToken";
 const roomsRouter: express.Router = express.Router();
 
 // CREATE
-roomsRouter.post("/", verifyAdmin, createRoom);
+roomsRouter.post("/:hotelId", verifyAdmin, createRoom);
 
 // UPDATE
 roomsRouter.put("/:id", verifyAdmin, updateRoom);

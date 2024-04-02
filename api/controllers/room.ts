@@ -8,7 +8,7 @@ export const createRoom = async (
   res: express.Response,
   next: NextFunction
 ) => {
-  const hotelId = req.params.hotelid;
+  const hotelId = req.params.hotelId;
   const newRoom = new Room(req.body);
 
   try {
